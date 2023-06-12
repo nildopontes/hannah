@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+      <meta property="og:title" content="Nildo&Hannah" />
+      <meta property="og:description" content="Esses são os dias escolhidos" />
+      <meta property="og:image" content="https://nildopontes.com.br/hannah/hannah.jpg"/>
+      <meta property="og:image:type" content="image/jpeg">
+      <meta property="og:image:width" content="288">
+      <meta property="og:image:height" content="362">
+      <meta property="og:type" content="website">
+      <link rel="icon" type="image/x-icon" href="icon.ico">
+      <title>Escala 12x60</title>
+      <style type="text/css">
+         html,body{
+            margin:0;
+            padding:0;
+         }
+         select{
+            font:8vw/14vw Helvetica;
+            color:#666;
+            text-align:center;
+         }
+         #calendar{
+            width:98vw;
+            height:135vw;
+            text-align:center;
+            margin-left:1vw;
+            margin-top:1vh;
+            color:#757575;
+         }
+         #month{
+            width:100%;
+            height:14vw;
+         }
+         .day{
+            width:14vw;
+            height:14vw;
+            float:left;
+            font:6vw/14vw Helvetica;
+         }
+         .weekend{
+            color:red;
+         }
+         .week{
+            color:orange;
+         }
+         button{
+            float:left;
+            width:100%;
+            height:14vw;
+            font:6vw/12vw Helvetica;
+            color:green;
+            margin-top:5vw;
+         }
+         .toggle{
+            background:#dedede;
+         }
+         *{
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+         }
+      </style>
+      <script>
+         var current = new Date();
+         var year = current.getFullYear();
+         var defaultMonth;
+         var duties = new Array();
+         var Hannah = new Array();
+         var HannahMaxLength;
+         var daysOnDefaulMonth;
+         const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+         var dictionary = fillDictionary();
+         var hasQuery;
+         var queryString;
+         var alertTriggered = false;
+         function showMonths(){
+            daysOnDefaultMonth = new Date(year, defaultMonth + 1, 0);
+            daysOnDefaultMonth = daysOnDefaultMonth.getDate();
+            HannahMaxLength = Math.round(daysOnDefaultMonth / 2);
+            var h1 = document.createElement('h1');
+            h1.innerText = year;
+            calendar.appendChild(h1);
+            var sel = document.createElement('select');
+            sel.setAttribute('id', 'month');
+            sel.setAttribute('onchange', 'clearCalendar(); showMonths();');
+            calendar.appendChild(sel);
+            var limitMonth;
+            hasQuery ? limitMonth = defaultMonth + 1 : limitMonth = 12;
+            for(var monthId = defaultMonth; monthId < limitMonth; monthId++){
+               var opt = document.createElement('option');
+               opt.innerText = months[monthId];
+               opt.setAttribute('value', monthId);
+               if(defaultMonth == monthId){
+                  opt.setAttribute('selected', '');
+               }
+               month.appendChild(opt);
+            }
+            generate();
+         }
+         function clearCalendar(){
+            defaultMonth = parseInt(month.value, 10);
+            calendar.innerHTML = "";
+         }
+         function generate(){
+            var week = 'SSQQTSD';
+            for(var days = -6; days <= daysOnDefaultMonth; days++){
+               var day = document.createElement('div');
+               if(days < 1){
+                  day.innerText = week[Math.abs(days)];
+                  if([6,0].includes(Math.abs(days))){
+                     day.classList.add('weekend');
+                  }else{
+                     day.classList.add('week');
+                  }
+               }else{
+                  var specific = new Date(year, parseInt(month.value, 10), days);
+                  if(days == 1){
+                     day.style.marginLeft = `${specific.getDay()*14}vw`;
+                  }
+                  day.innerText = days;
+                  if(!hasQuery){
+                     day.setAttribute('id', `d${days}`);
+                     day.setAttribute('onclick', `selectDay('d${days}');`);
+                  }
+                  if([0,6].includes(specific.getDay())){
+                     day.classList.add('weekend');
+                  }
+                  if(Hannah.includes(days) && !duties.includes(`${days}/${defaultMonth}/${year}`)){
+                     day.classList.add('toggle');
+                  }
+               }
+               day.classList.add('day');
+               calendar.appendChild(day);
+            }
+            var bt = document.createElement('button');
+            if(hasQuery){
+               bt.innerText = 'Criar nova escala';
+               bt.setAttribute('onclick', `window.location.href = 'https://nildopontes.com.br/hannah';`);
+            }else{
+               bt.setAttribute('onclick', 'sendMsg();');
+               bt.innerText = 'Enviar';
+            }
+            calendar.appendChild(bt);
+         }
+         function sendMsg(){
+            Hannah.sort(function(a, b){
+               return a - b;
+            });
+            var ready = true;
+            if(Hannah.length < HannahMaxLength){
+               ready = confirm(`O mês de ${months[defaultMonth]} possui ${daysOnDefaultMonth} dias, você pode selecionar até ${HannahMaxLength} dias. Ainda falta ${HannahMaxLength - Hannah.length}. Quer continuar mesmo assim?`);
+            }
+            if(ready){
+               window.location.href = `https://api.whatsapp.com/send?phone=5551935059765&text=https://nildopontes.com.br/hannah/?q=${HannahToString()}
+               Esses são os dias que a Hannah fica com o pai no mês de ${months[defaultMonth]}. Acesse o link e veja.`;
+            }
+         }
+         function selectDay(id){
+            var dnode = document.getElementById(id);
+            var d = parseInt(dnode.innerHTML, 10);
+            if(duties.includes(`${d}/${defaultMonth}/${year}`)){
+               alert('Eu trabalho neste dia.');
+            }else{
+               if(Hannah.includes(d)){
+                  dnode.classList.remove('toggle');
+                  Hannah.splice(Hannah.indexOf(d), 1);
+                  return;
+               }
+               if(Hannah.length == HannahMaxLength){
+                  alert(`Você já selecionou ${HannahMaxLength} dias.`);
+                  return;
+               }
+               if(Hannah.length == 0 && !alertTriggered){
+                  alert(`Note que você está criando a escala de ${months[defaultMonth]}. Pode escolher outro mês caso queira.`);
+                  alertTriggered = true;
+               }
+               dnode.classList.add('toggle');
+               Hannah.push(d);
+            }
+         }
+         function defineDuties(){
+            var daysOnYear;
+            (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? daysOnYear = 366 : daysOnYear = 365;
+            for(var i = 3; i <= daysOnYear; i += 3){
+               var date = new Date(year, 0, i);
+               var d = date.getDate();
+               var m = date.getMonth();
+               duties.push(`${d}/${m}/${year}`);
+            }
+         }
+         function fillDictionary(){
+            var d = '';
+            for(var i = 65; i < 81; i++){
+               d += String.fromCharCode(i);
+               d += String.fromCharCode(i + 32);
+            }
+            return d;
+         }
+         function HannahToString(){
+            var d = dictionary[defaultMonth];
+            d += dictionary[Hannah.length];
+            for(var i = 0; i < Hannah.length; i++){
+               d += dictionary[Hannah[i]];
+            }
+            return d;
+         }
+         function query(){
+            if(location.search.length > 3){
+               hasQuery = true;
+               queryString = location.search.split('=')[1];
+               defaultMonth = dictionary.indexOf(queryString[0]);
+               [...queryString].forEach((e, i) => {
+                  if(i > 1){
+                     Hannah.push(dictionary.indexOf(e));
+                  }
+               });
+               if(Hannah.length != dictionary.indexOf(queryString[1])){
+                  alert('Aparentemente os dados foram corrompidos.');
+               }
+            }else{
+               defaultMonth = current.getMonth();
+               hasQuery = false;
+            }
+         }
+         window.addEventListener("DOMContentLoaded", (event) => {
+            query();
+            defineDuties();
+            showMonths();
+         });
+      </script>
+   </head>
+   <body>
+      <div id="calendar">
+      </div>
+   </body>
+</html>
