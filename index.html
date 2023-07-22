@@ -66,172 +66,56 @@
             user-select: none;
          }
       </style>
+      <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+      <script>eruda.init();</script>
+      <script src="aes.js"></script>
       <script>
-         var current = new Date();
-         var year = current.getFullYear();
-         var defaultMonth;
-         var duties = new Array();
-         var Hannah = new Array();
-         var HannahMaxLength;
-         var daysOnDefaulMonth;
-         const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-         var dictionary = fillDictionary();
-         var hasQuery;
-         var queryString;
-         var alertTriggered = false;
-         function showMonths(){
-            daysOnDefaultMonth = new Date(year, defaultMonth + 1, 0);
-            daysOnDefaultMonth = daysOnDefaultMonth.getDate();
-            HannahMaxLength = Math.round(daysOnDefaultMonth / 2);
-            var h1 = document.createElement('h1');
-            h1.innerText = year;
-            calendar.appendChild(h1);
-            var sel = document.createElement('select');
-            sel.setAttribute('id', 'month');
-            sel.setAttribute('onchange', 'clearCalendar(); showMonths();');
-            calendar.appendChild(sel);
-            var limitMonth;
-            hasQuery ? limitMonth = defaultMonth + 1 : limitMonth = 12;
-            for(var monthId = defaultMonth; monthId < limitMonth; monthId++){
-               var opt = document.createElement('option');
-               opt.innerText = months[monthId];
-               opt.setAttribute('value', monthId);
-               if(defaultMonth == monthId){
-                  opt.setAttribute('selected', '');
-               }
-               month.appendChild(opt);
-            }
-            generate();
+         var encrypted = 'b842697857233433c11eb020d0bc80d8bd66f7dc43406519828bee33a4f0385dc8deae1e0d80ef75a4dc3fcbad42e5f4b9da6fd985b5e49078432cb2392fc7337d8ef2aa3c2a4496187589c3ed7c57b7f18b0dd9a66d58cbe3c94ef2e2fa056cb09aca61412b0f83e538de120c7cdcac05ba8bad3a725a35159fe54889cb5a86ec0312333b90660842fb476087fd2920e876843ce326bd5434dcb6c95375938f079e4ae13d95deddc93d594a18bf8e9175bd995e54fe4779c89f0bc9fa6683e6b3b91b11dfcb9fa9253bcb539bd15a9f85525933658be964dd4d5c9fa3e9fd4ff6e5f1fa6693f8f7a9db2d5c789859c1a71d9cd3babcabeeee3762485395eb0546885d1dc72826ff6cdec8bb3ab2660746da858d596525de52d32ea975ce260fc1d1df3f7bc9f7d0dffc123263c34b566776626ead94b9faa68058722ee34435b945dc0d0c4d6154bd1f6a2e25a7b9edbd19be10aec44f730e8a433e0f6d4cd108c96907f1df235337c6ffd07561bda10bfa25b140311fb5204f8dd57f57e421c0a2b25acf60edcd87bb5d54602b8d9b33cbd2f1ddecd63549817561b682eab3bba2aa276c1196bb1cade0c57f75869e2d64b2c16142a08898f8472213d91537df1e27eb4f160e31aef6bc636d0d9fe62ca580a62d3934884b8cb5eae2248136643593dd5363435d6c251cdea92bbd7de2c842427e9b79cbdce17a3277aa6a2a8e5653619a114a51e51e79933512fe92c075d40941581cfbb09163e1934e1ad044c61b1cda3da03c4104284ff751bea85b7ce3e921cdc7c16d1707ac2434cf4d660ed708197c4c574f93fc1206c5a1afdc0775d0f984fdd27ee5ecff082024f39564a6f48dd0c77d69915b1d23533efd8108d97f10c8e021cd50cfabb9941aaa52be87e1d774579d1411c0e9e4f4474791224e7b63c58b56d80a1dfc44cd03932686b1e06b610c1821482ea3c11ae064cbce9e676172455dc4aa130d87a42e77d88e49f6360482ca3a2e6a4dd9aaba8e1b829dbc148b17b163f3bf43fbf385bbc11bd6124832547ed56b5a21ca842c986d2395a81d6b9ac6a577dbeedcd2989413c42c1c9c83976536ef7deb8a966961c5d320ab7d68d7d844d67f4fb1bec50d158c9e81c10278f7a1de386ed6f0eebe845a253cf20461c25d4ab0c68f808a5756332c1a81f48eec8346f74ee66614315a042539099fbe7f8fae261ae600c553861a56f27a95efe50654186e6b3db2829a3adb6ab5db177fa55992d4531814066346b34cbe0033ffbd1cf7cf2e0ac6987c80b50cd21c2df4992ea9fcedba3454d15cf7afb412f8ef8d2909a1e92343553eb2f241e257ae15114e0bf2eae353937bbc4d0c04f1673a17dbb182c62f98fbde7133cb10485a8a8b159951d7c5860bb7eae655e5bb883b75341a9412f07d05f0bc07a2913b0ff4bd0c3b32007c467decd8072bd6c3b7084f9bcee559241b02dcd67dff167791938304b2d743187a1ecb430dabecbcafc1aebab925723a1b6080916516617693236d1e24bcb828c2b42ca02b09069a8b8da3d8572c65873256960855b098f57f89e2102f08e45b8e8b38081b4de738feb0f234e5b2d1b0d6e6bf9578408a3633aba3fe5abb2281d40b5b622ec15209dad0bea49a34014c843cfd48bb3ec19bc9430c3db7827fba14f7a40389138eaf2634996fa371034b0cfc07f53a56ddf8a63a54ac007b9de61fb6b71b819087166a1dddc696cb4913cf220cf78eacd59ba1fc4537cbbca3a944429b002bfc1f43c2e509b862b733e91240a5e8e4d22a9a6efd2a02fe4fdd5ffc674b4574fc4fe06ed63058aee34a1b06a99a9981507dce9a9303afd61b16d4950721c4822a50bfc1e33a268319f2fdb07caba6a8f2da77fa232f0ab22f830b270e6c4cc2957f9c3332d2f9dbc931d457904c0b3c222fa98f38797a3165db81c805251a2b2eadb11cf2feca283f4974c7b0325fcb2d6df9aaa86e5d02de9062d9559e50c126c265bdd3ceda0b4a45c0932f14f864e7d6aa48f03fc9aee50454899a4d5172eee33752c8158bd38d770322345387c011685596ab06028441eb7eebc709e1026b89cadee220505dcd3d08e6d72bfe426a6c7cfa42f5793072ee90eae677f13731a5e36d5b3a0cbbfa6ecec963cf98210473636304732dcefcd5e73d93d5443e873f74fe182efc72d58a967c6ce421667c5975e54767e77d8ec36207d851f2b199907be2f775e509b9d56f7c70a618bc41ada8bea59b5129610abc1da6f21a753a0efd794a947434331ff19b9dc8ec5f1880cf754ce6f98f207d643c37c320a8f9087a255518dafc1613462856441ee317f1d5069315b59d989ed86a85c1cb30a806838abe101e71b19eda9b247dbd34c6e9db440ff5c6369db97b5a9e532da91ad2efc31de3c23e6c99a86f15b20577bd19555543dcb5b051f64c30428c34cd6b60b157471c3d110ad5ee3b07d386db616478a8d4b7b921f3385882d08688dae2a3c1aebbce0c381ea9de5a1a256222b1a12e046db43f80fa631ce0df793dc21acdb14bceedb5a45c086ea36a325f9472727feb7aea0a48ebfcdf0e39de7cb2e20820cac49ee68f8e9352153a93f06ee464073f7d58b07fb777499bda8a650e1f0ade466a8c91853d069b62350adab5785140461a79135d20c31408b038ccb9ce0323b3b7d4153fc21c80d11c00fe686d9b66826919ad0188e713f5a399eba64abfd624cf6430e5603158fa110128d277f82b1c2603922c056abd5e8606d799a7d7e5e271f65abb5593507487f68c81c7fd820e39f326c479b1a856daffdc59a8e0106a62abb560ff31954097f64517591a6c6032605458b7caec6e85438bbe646740aef3def5488d56d76bf11619e0de951435af49fb6dc409f7a9cbfd512cbf2b2dcd724af40403706ddf6448a71cc98e6f8018e452852ca0f9677ac2d5ae4df842c461f73cd26088f3f258027fbf8156ef26b99c03bcd05ecfe837ebb0d29e6b602f372e570ce12cfcf11023ca11ee4f7faab00928a2ad9e5b2432a13b7ea1cd613f243a3fea3636b460a45f39c38408e553769cd6a1868efe9402522683a9c6ac9be002c7385ff570909931f72ade3df2991c3f15e12e88b5eeb6ad188ec1054c5848f23df61e7bc22c7e0a9f330a753403ead997b198ff7558e015234688ab0a360ab8db01bd49ad133d302c6a617a351ed4c8f0599d3326b586ec47774b9014cb15befcad3cc9f96054e72572e55ae46b01eb0c4fa656d4d342e6eb10231f59f744e47774e7c6501885451e2e62d5e51652e91ff1e34bbcf858d9c54a8a7f4377fe5b557535e6a204e28fed9a0229041545ca643aa3eab2929445a1cdd8d5a8a2d9d86551b3f940b8e78f978a5e04629d75fbf9b4b5b28a0674629323ab9ca728df9365d4f972a1f7013a6953098c228b1ee2468d5d8c0c797c9ae522e32c96a95b31307d1111bbb1e79f36fd132c1db9a2c54f084abac8ee7baf00e4e45301d5b2f5bd7cee36e1b138d1d42edee1df3ed5b4d4a180808fb5be544c2a5f98879423c167d422e678fe426a6ecf9cfb1eda89ef7e63525e3f0047fd951e7e1fce013a34c674075a7cd54bcaedfb050a9a5187927e346ab558fd124ad1d81c781d306e88b2b1e0b0c60cc57e1b861094a5c2b2d452c2b6585842589efe47c2dad10d5a18debcbd4b9f1244cf6da64e18f982d76fe3d49a2a87e645dfcce81640abaa9a34c3b2b97883764b4b1fee15612b94ca5d3373f43f6296ba4cb676075d7f767db06b0e67fc9d790e5487e49c474eb888a06fd49b9c6ee78c45c9cf6567705841967b63ab7ab8a44156da021924735b3ac19f1b246bb147eaec8d666039b095e1d78e31f3a059faa0f1b9265a1a9a8539741e462cc9e2f594610770982213faf45d7034dcb00574946d4a391204e4383d1fcee82b62e12cd52841846d9d50f0d5a3aea5896bbb2cf000cfe3b644075c4932524a5b2105e508d6896eed9103a87496268faa9169c39a8d7eef9dc4a6f9be734484e01108cbb0ca1373278204e06408fb607191344b64902b89f917aa0bb3957846ff78a7738c7279faeb7269aa39beb4ddb21ce870e729c41654969534d8bd4d3c27eb608d139ae6604c4cafe6ebdf13d636821b64fd499a0ddaf22d8144acc80676d4b746b60581972a99d5be7de3c21e13d8849a54ee05575fe97402f26f8b409895da48aa79770e63f194eafd2604e50a3d8e5fc2fda7d7731e85c19b7050f56f892a0da16a13f8c4e8c732e8cd77a03cce69809a044c785391be999641f0498252612e73b77a3df1d75ea34a44c12a3e858ce209ee7b20fe563eb1fdadc273cddc2e79e09ed6599402770bdfed7110e7fcf8d02f8de589fc1754656e65a43a1352a62c57003734a156d013b037899d2d4351312f921ecf8381c787f25c67dd888e593fca43903e5e27962cc73dbec50148af7fa8299c614151f6a28f237e7dbdbf9ae149fa8c3eb101e5f91617ef386431bb5f8d1c61facf21956dc635b4d441bd44b05da699aec37551d0df457a4f222c081d23855478ed4fca50ae7d32024998c394faa8abebb047f28b98aa0f834c4843400df4b88c417440f0ec9191387c89a041fdc626e3400eec7f06642407ee83d3b9fca2bf9525ea4c956425242078f8d78fd782eebf4b104f5ddac8a511226d3e46c7efa1bd9300b7291aaab6c9f09f731f65353dc540fff8f9aaa9fd4ae9792aab566e940a76c81f985cf984570f2b44be04a7de95bd770f3bb0be6fb60f0f5ff7dd70605a2aab031d3165cc5af544c16906c6267cf4383c0325ebb9bf3281017411972bada8e22e9465044d7871f6d17d3dc76a49c4bd87d925395eaa0bcb437a7abef8dd0db3cd07a4993e04e46077b3e263f27d05166af4b0d4ea5d3e66df37b0a0f560ac2fc08a2c3b0b0f4a70abb2cec79eb022dded86ef3cbe9bd49d8a4728c982507935092d3ec7c674aa6032bece0fa0a7fcdb57c640dbe69f004efd8d47318eff545a6134f1bbf758eef6460765c0da83228f36a11db905f1e86cf732a1376ea6b39fe3263c1fa35ee55a2991728e058cdc91189d19722d306b7466888259b48662a24992b92e034d562ac8901fbe8e8d1c3cb536d7d0405a17ea99bee117d3ec8b447518f0d5423ff60dfd62602ae401e73208e44fe9478cdcfc659ebd0b01375d509a11786d26f60cb20fd8b606c43955d5ed20b3f75d21c72a20be937f593a3fb83fccfd719753fb20a298b79d5f6fbe17b2b86450bebc52341e123029d12b905819467222861231960f4866b08de8baeb542b5a814917028d16bd59a873a759f7254bdae3a5660dc34d08981164592714f881201f7e9cd6860e085bd28dfe070096c152bbca19899b2c8f7491f62d4f42597113b0008388c7ec4137fe3ae7f572a8eb8cef695c9fb297692cd2ee01d8298880f39c9f46952637ba78e7e1b0295dc8f72bcd2964fe4cc9bfffd8ef53daee47505fd3fbd3dd9c560194a435fd13cc3038bb71cf0844ce2b691b451580937f97e782a03510634602ba25e462e04b0935256345';
+         var password = [], pass;
+         var passCheck = 'de9f09797f6901f12faa26f41bfcaa13d192ecf56257058be79d01384e732960494d07a8d16206479ef4c2c7e2690ca197613819707ec719935b9748c907445fc30f7f1c5dbee79b1faed2862403f560b270f4480f01319671e9125466';
+         function $(id){
+            return document.getElementById(id);
          }
-         function clearCalendar(){
-            defaultMonth = parseInt(month.value, 10);
-            calendar.innerHTML = "";
-         }
-         function generate(){
-            var week = 'SSQQTSD';
-            for(var days = -6; days <= daysOnDefaultMonth; days++){
-               var day = document.createElement('div');
-               if(days < 1){
-                  day.innerText = week[Math.abs(days)];
-                  if([6,0].includes(Math.abs(days))){
-                     day.classList.add('weekend');
-                  }else{
-                     day.classList.add('week');
-                  }
-               }else{
-                  var specific = new Date(year, parseInt(month.value, 10), days);
-                  if(days == 1){
-                     day.style.marginLeft = `${specific.getDay()*14}vw`;
-                  }
-                  day.innerText = days;
-                  if(!hasQuery){
-                     day.setAttribute('id', `d${days}`);
-                     day.setAttribute('onclick', `selectDay('d${days}');`);
-                  }
-                  if([0,6].includes(specific.getDay())){
-                     day.classList.add('weekend');
-                  }
-                  if(Hannah.includes(days) && !duties.includes(`${days}/${defaultMonth}/${year}`)){
-                     day.classList.add('toggle');
-                  }
-               }
-               day.classList.add('day');
-               calendar.appendChild(day);
-            }
-            var bt = document.createElement('button');
-            if(hasQuery){
-               bt.innerText = 'Criar nova escala';
-               bt.setAttribute('onclick', `window.location.href = 'https://nildopontes.com.br/hannah';`);
-            }else{
-               bt.setAttribute('onclick', 'sendMsg();');
-               bt.innerText = 'Enviar';
-            }
-            calendar.appendChild(bt);
-         }
-         function sendMsg(){
-            Hannah.sort(function(a, b){
-               return a - b;
-            });
-            var ready = true;
-            if(Hannah.length < HannahMaxLength){
-               ready = confirm(`O mês de ${months[defaultMonth]} possui ${daysOnDefaultMonth} dias, você pode selecionar até ${HannahMaxLength} dias. Ainda falta ${HannahMaxLength - Hannah.length}. Quer continuar mesmo assim?`);
-            }
-            if(ready){
-               window.location.href = `https://api.whatsapp.com/send?phone=5551935059765&text=https://nildopontes.com.br/hannah/?q=${HannahToString()}
-               Esses são os dias que a Hannah fica com o pai no mês de ${months[defaultMonth]}. Acesse o link e veja.`;
-            }
-         }
-         function selectDay(id){
-            var dnode = document.getElementById(id);
-            var d = parseInt(dnode.innerHTML, 10);
-            if(duties.includes(`${d}/${defaultMonth}/${year}`)){
-               alert('Eu trabalho neste dia.');
-            }else{
-               if(Hannah.includes(d)){
-                  dnode.classList.remove('toggle');
-                  Hannah.splice(Hannah.indexOf(d), 1);
-                  return;
-               }
-               if(Hannah.length == HannahMaxLength){
-                  alert(`Você já selecionou ${HannahMaxLength} dias.`);
-                  return;
-               }
-               if(Hannah.length == 0 && !alertTriggered){
-                  alert(`Note que você está criando a escala de ${months[defaultMonth]}. Pode escolher outro mês caso queira.`);
-                  alertTriggered = true;
-               }
-               dnode.classList.add('toggle');
-               Hannah.push(d);
-            }
-         }
-         function defineDuties(){
-            var daysOnYear;
-            (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? daysOnYear = 366 : daysOnYear = 365;
-            for(var i = 3; i <= daysOnYear; i += 3){
-               var date = new Date(year, 0, i);
-               var d = date.getDate();
-               var m = date.getMonth();
-               duties.push(`${d}/${m}/${year}`);
-            }
-         }
-         function fillDictionary(){
-            var d = '';
-            for(var i = 65; i < 81; i++){
-               d += String.fromCharCode(i);
-               d += String.fromCharCode(i + 32);
-            }
-            return d;
-         }
-         function HannahToString(){
-            var d = dictionary[defaultMonth];
-            d += dictionary[Hannah.length];
-            for(var i = 0; i < Hannah.length; i++){
-               d += dictionary[Hannah[i]];
-            }
-            return d;
-         }
-         function query(){
-            if(location.search.length > 3){
-               hasQuery = true;
-               queryString = location.search.split('=')[1];
-               defaultMonth = dictionary.indexOf(queryString[0]);
-               [...queryString].forEach((e, i) => {
-                  if(i > 1){
-                     Hannah.push(dictionary.indexOf(e));
-                  }
-               });
-               if(Hannah.length != dictionary.indexOf(queryString[1])){
-                  alert('Aparentemente os dados foram corrompidos.');
-               }
-            }else{
-               defaultMonth = current.getMonth();
-               hasQuery = false;
-            }
+         function expandPass(){
+            pass.split('').forEach(element => {
+            password.push(element.charCodeAt(0));
+         });                                                          }
+         function decrypt(val){
+            encryptedHex = val;
+            var counter = parseInt(encryptedHex.substring(encryptedHex.length - 6, encryptedHex.length), 10);
+            var encryptedBytes = aesjs.utils.hex.toBytes(encryptedHex.substring(0, encryptedHex.length - 6));
+            var aesCtr = new aesjs.ModeOfOperation.ctr(password, new aesjs.Counter(counter));
+            var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+            (0, eval)(aesjs.utils.utf8.fromBytes(decryptedBytes));
          }
          window.addEventListener("DOMContentLoaded", (event) => {
-            query();
-            defineDuties();
-            showMonths();
+            if(localStorage.getItem('passHannah') === null){
+               pass = prompt('Senha');
+            }else{
+               pass = localStorage.getItem('passHannah');
+            }
+            if(pass === null || pass.length != 32){
+               alert('A senha deve ter 32 caracteres');
+               localStorage.removeItem('passHannah');
+               location.reload();
+               return;
+            }
+            expandPass();
+           try{
+               decrypt(passCheck);
+               if(typeof(authorized) == 'undefined'){
+                  alert('Senha incorreta');
+                  location.reload();
+               }else{
+                  if(authorized === true){
+                     decrypt(encrypted);
+                     localStorage.setItem('passHannah', pass);
+                  }
+               }
+            }catch{
+               alert('Senha incorreta');
+               location.reload();
+            }
          });
       </script>
    </head>
