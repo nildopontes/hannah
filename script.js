@@ -24,7 +24,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
          location.reload();
          return;
       });
-      
    });
 });
 function decrypt(encrypted){
